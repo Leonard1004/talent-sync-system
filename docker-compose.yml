@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  job-seeker-service:
+    build:
+      context: ./job_seeker_service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - job-seeker-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_SERVER=job-seeker-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=job_seeker_db
+      - MATCHING_PARTNER_API_URL=http://matching-service-placeholder/api/profiles
+    networks:
+      - talent-sync-network
+
+  job-seeker-db:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=job_seeker_db
+    volumes:
+      - job-seeker-db-data:/var/lib/postgresql/data
+    networks:
+      - talent-sync-network
+
+  talent-pool-service:
+    build:
+      context: ./talent_pool_service
+    ports:
+      - "8001:8000"
+    depends_on:
+      - talent-pool-db
+      - redis
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_SERVER=talent-pool-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=talent_pool_db
+      - JOB_SEEKER_BULK_API_URL=http://job-seeker-service:8000/api/bulk
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - talent-sync-network
+
+  talent-pool-db:
+    image: postgres:14
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=talent_pool_db
+    volumes:
+      - talent-pool-db-data:/var/lib/postgresql/data
+    networks:
+      - talent-sync-network
+
+  redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    networks:
+      - talent-sync-network
+
+  celery-worker:
+    build:
+      context: ./talent_pool_service
+    command: celery -A celery_worker worker --loglevel=info
+    depends_on:
+      - redis
+      - talent-pool-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_SERVER=talent-pool-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=talent_pool_db
+      - JOB_SEEKER_BULK_API_URL=http://job-seeker-service:8000/api/bulk
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - talent-sync-network
+
+  celery-beat:
+    build:
+      context: ./talent_pool_service
+    command: celery -A celery_worker beat --loglevel=info
+    depends_on:
+      - redis
+      - talent-pool-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_SERVER=talent-pool-db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=talent_pool_db
+      - JOB_SEEKER_BULK_API_URL=http://job-seeker-service:8000/api/bulk
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - talent-sync-network
+
+networks:
+  talent-sync-network:
+    driver: bridge
+
+volumes:
+  job-seeker-db-data:
+  talent-pool-db-data:

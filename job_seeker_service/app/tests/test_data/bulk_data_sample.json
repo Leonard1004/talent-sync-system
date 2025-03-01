@@ -1,0 +1,94 @@
+{
+    "profiles": [
+      {
+        "cvId": "2ad8595a-76a0-4cf3-ae72-dff8fe57e5e7",
+        "lastModifiedDt": "2025-01-29T09:49:41.228Z",
+        "user": {
+          "userId": "8377fb07-f831-4b96-9400-7ce35586a9a8",
+          "candidateCode": "WBJ-606"
+        },
+        "cvProfile": {
+          "workingHours": 36,
+          "willingToTravel": false
+        },
+        "cvAddress": {
+          "geoLocation": [52.3730796, 4.8924534]
+        },
+        "cvItems": {
+          "experience": [
+            {
+              "professionNm": "Data Consultant Analist Specialist",
+              "company": "abc",
+              "startD": null,
+              "endD": null,
+              "location": null,
+              "description": null
+            }
+          ],
+          "education": [
+            {
+              "educationalInstitutionNm": "Het Amsterdams Lyceum",
+              "degreeCode": "HBO-Master",
+              "degreeCodeJobDigger": "HBO",
+              "fieldOfStudyNm": "Data Science And Business Analytics",
+              "educationalInstitutionLocation": "amsterdam",
+              "startD": null,
+              "endD": null,
+              "educationCompleted": null,
+              "educationSpecializationDescription": null
+            }
+          ],
+          "hobby": [
+            {
+              "hobbyNm": "Reading books"
+            }
+          ],
+          "language": [
+            {
+              "skillNm": "English",
+              "rating": 2
+            }
+          ],
+          "softSkillKnowledge": [
+            {
+              "skillId": "012f3431-e259-4a5d-a37d-52bf470c461b",
+              "skillNm": "Data",
+              "relatedLineItemType": ["EDUCATION", "EXPERIENCE"],
+              "rating": 5
+            },
+            {
+              "skillId": "a35025b1-a442-444e-a369-db89105d4b7e",
+              "skillNm": "Flexible",
+              "relatedLineItemType": [],
+              "rating": null
+            }
+          ],
+          "certificate": [
+            {
+              "certificateId": "84c0bb4e-6bb6-40a8-aa4f-6cc02d40811f",
+              "skillNm": "Dutch as a second language certificate (NT2)"
+            }
+          ]
+        },
+        "visibleInTalentPool": true,
+        "memberOf": [
+          {
+            "talentPoolId": "8377fb07-f831-4b96-9400-7ce35586a9a8",
+            "talentPoolName": "Working At"
+          }
+        ],
+        "applicationStatus": [
+          {
+            "jobOfferCode": "2784631350_1",
+            "applicationStatus": "already-applied"
+          }
+        ],
+        "matchFeedback": [
+          {
+            "jobOfferCode": "2784631350_1",
+            "matchStatus": "not-a-match"
+          }
+        ]
+      }
+    ]
+  }
